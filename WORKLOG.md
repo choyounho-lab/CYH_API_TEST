@@ -16,7 +16,7 @@
 
 - 백엔드 DB 기반 작업은 `f64b0c5` 커밋으로 GitHub `main`에 푸시했습니다.
 - 로그인·회원가입 API와 Cloudflare Pages 배포 설정은 `436a254`, `c6f2f54` 커밋으로 GitHub `main`에 푸시했습니다.
-- 현재 외부 백엔드 보안·Docker·Railway 설정 변경은 다음 커밋 대상입니다.
+- 외부 백엔드 보안·Docker·Railway 설정은 `d269457` 커밋으로 GitHub `main`에 푸시했습니다.
 - 로컬 `.env`와 실제 DB 비밀번호는 Git에서 제외합니다.
 
 ## 실행 주소
