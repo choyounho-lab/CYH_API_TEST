@@ -133,6 +133,16 @@
 - 기존 `pages.dev` 기본 주소에서도 최신 빌드 HTML을 확인했습니다.
 - 다음 배포에서 Pages 설정을 사용하도록 `pages_build_output_dir`와 배포 명령을 정리했습니다.
 
+### 16. 외부 백엔드 배포·보안 준비
+
+- Spring Boot가 Railway의 `PORT` 환경변수를 사용하도록 설정했습니다.
+- 외부 HTTPS 프록시를 고려해 전달 헤더 설정을 추가했습니다.
+- Cloudflare Pages 도메인만 허용하는 CORS 설정을 환경변수로 분리했습니다.
+- Spring Security로 로그인·회원가입만 공개하고 나머지 API는 차단하는 기본 정책을 추가했습니다.
+- 상태 확인용 `/api/health`를 별도로 추가해 DB 접속 정보가 외부에 노출되지 않도록 했습니다.
+- Railway Docker 배포용 `Dockerfile`, `railway.json`, `RAILWAY_DEPLOY.md`를 추가했습니다.
+- Railway와 관리형 PostgreSQL을 실제로 생성하고 연결하는 작업은 계정 인증 후 진행해야 합니다.
+
 ## 현재 가능한 기능
 
 - React 프론트엔드 실행과 화면 표시

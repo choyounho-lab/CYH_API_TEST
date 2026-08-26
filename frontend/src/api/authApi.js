@@ -23,7 +23,7 @@ export async function signUp(memberInformation) {
 }
 
 async function postJson(path, payload) {
-  const response = await fetch(path, {
+  const response = await fetch(`${apiBaseUrl}${path}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -40,3 +40,4 @@ async function postJson(path, payload) {
 
   return { response, body }
 }
+const apiBaseUrl = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '')

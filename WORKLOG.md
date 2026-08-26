@@ -15,7 +15,8 @@
 ## Git 상태
 
 - 백엔드 DB 기반 작업은 `f64b0c5` 커밋으로 GitHub `main`에 푸시했습니다.
-- 로그인 회원 테이블, 로그인·회원가입 API와 현재 프론트 변경은 아직 커밋·푸시하지 않았습니다.
+- 로그인·회원가입 API와 Cloudflare Pages 배포 설정은 `436a254`, `c6f2f54` 커밋으로 GitHub `main`에 푸시했습니다.
+- 현재 외부 백엔드 보안·Docker·Railway 설정 변경은 다음 커밋 대상입니다.
 - 로컬 `.env`와 실제 DB 비밀번호는 Git에서 제외합니다.
 
 ## 실행 주소
@@ -26,9 +27,10 @@
 - 회원가입 API: `POST http://localhost:8080/api/auth/signup`
 - 로그인 API: `POST http://localhost:8080/api/auth/login`
 - Jenkins는 Windows에 설치하고 로그인을 확인했지만 CI/CD Job과 배포는 아직 구성하지 않았습니다.
-- Cloudflare Workers 배포용 `wrangler.toml`과 루트 `npm run build` 스크립트를 추가했습니다.
+- Cloudflare Pages 배포용 `wrangler.toml`과 루트 `npm run build` 스크립트를 추가했습니다.
 - Cloudflare Pages 정적 자산 경로는 `./frontend/dist`로 고정했습니다.
 - Wrangler Pages 직접 배포로 `cyh-api-test.pages.dev`에 실제 배포를 완료했습니다.
+- Railway 배포를 위해 Dockerfile, railway.json과 외부 CORS 설정을 준비했습니다.
 
 개발 서버는 작업 세션이나 PC를 종료하면 함께 꺼질 수 있으므로 재개할 때 실행 상태를 다시 확인합니다.
 
@@ -103,7 +105,8 @@ ORDER BY member_id DESC;
 - 서비스 도메인 CRUD와 추가 프론트 페이지
 - 운영 서버와 PostgreSQL 외부 배포
 - Jenkins Pipeline과 GitHub 연동 자동 배포
-- Cloudflare Worker 자동 배포의 첫 실행과 백엔드 공개 주소 연결
+- Cloudflare Pages에서 외부 백엔드 API 주소 지정
+- Railway/Render 외부 백엔드와 관리형 PostgreSQL 연결
 - 소셜 로그인
 
 ## 다음 권장 작업
