@@ -1,6 +1,6 @@
 # CYH API Test
 
-Java 17, Spring Boot, Gradle 기반의 백엔드 프로젝트입니다. 하나의 PostgreSQL 연결을 Spring Data JPA와 MyBatis가 함께 사용합니다.
+React, Vite, Tailwind CSS 프론트엔드와 Java 17, Spring Boot, Gradle 기반 백엔드로 구성된 프로젝트입니다. 하나의 PostgreSQL 연결을 Spring Data JPA와 MyBatis가 함께 사용합니다.
 
 ## 연결 구조
 
@@ -36,6 +36,18 @@ resources
 ```
 
 단순 CRUD와 객체 중심 작업은 JPA Repository를 사용하고, 복잡한 조회·통계·튜닝이 필요한 SQL은 MyBatis Mapper를 사용할 수 있습니다. 두 방식은 같은 트랜잭션과 `DataSource`를 공유합니다.
+
+## 데이터베이스 마이그레이션
+
+Spring Boot 시작 시 Flyway가 `src/main/resources/db/migration`의 미적용 SQL을 순서대로 실행합니다.
+
+현재 마이그레이션:
+
+```text
+V1__create_member_account.sql → 로그인 회원 테이블 생성
+```
+
+로그인 테이블의 상세 컬럼은 [database/LOGIN_TABLE.md](database/LOGIN_TABLE.md)에서 확인할 수 있습니다. 이미 적용된 마이그레이션 파일은 수정하지 않고 이후 변경은 `V2__...sql` 파일로 추가합니다.
 
 ## 설치된 PostgreSQL에 최초 연결
 
@@ -79,6 +91,35 @@ Invoke-RestMethod http://localhost:8080/api/database/health
 
 정상 연결 시 `status`가 `UP`, `product`가 `PostgreSQL`로 반환됩니다.
 
+## 프론트엔드 실행
+
+백엔드를 먼저 실행한 상태에서 새 터미널을 엽니다.
+
+```powershell
+cd frontend
+npm.cmd install
+npm.cmd run dev
+```
+
+브라우저에서 `http://localhost:5173`에 접속합니다. Vite 개발 서버는 `/api` 요청을 자동으로 `http://localhost:8080`의 Spring Boot로 전달합니다.
+
+프론트엔드 프로덕션 빌드는 다음 명령으로 확인합니다.
+
+```powershell
+cd frontend
+npm.cmd run build
+```
+
+## 로그인과 회원가입
+
+프론트 화면에서 아이디, 이름, 이메일과 비밀번호로 가입할 수 있습니다. 비밀번호는 BCrypt 해시로 변환되어 PostgreSQL의 `member_account.password_hash`에 저장됩니다.
+
+- `POST /api/auth/signup`: 회원가입
+- `POST /api/auth/login`: 아이디와 비밀번호 확인
+- 로그인 성공 시 프론트에서 `로그인되었습니다.` 팝업 표시
+
+코드 실행 순서와 파일 역할은 [LOGIN_API.md](LOGIN_API.md)에서 확인할 수 있습니다. 현재는 자격 증명 확인까지만 구현되어 있으며 로그인 상태를 유지하는 세션 또는 토큰은 아직 없습니다.
+
 ## 환경변수
 
 | 이름 | 용도 | 로컬 예시 |
@@ -97,3 +138,5 @@ Invoke-RestMethod http://localhost:8080/api/database/health
 ```powershell
 .\gradlew.bat test
 ```
+
+작업 내역은 [HISTORY.md](HISTORY.md), 파일별 역할은 [PROJECT_FILE_GUIDE.md](PROJECT_FILE_GUIDE.md)에서 확인할 수 있습니다.

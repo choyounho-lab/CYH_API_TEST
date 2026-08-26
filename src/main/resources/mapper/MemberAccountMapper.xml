@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.auth.MemberAccountMapper">
+
+    <resultMap id="memberAccountResultMap" type="com.example.demo.auth.MemberAccount">
+        <constructor>
+            <idArg column="member_id" javaType="long" />
+            <arg column="login_id" javaType="string" />
+            <arg column="password_hash" javaType="string" />
+            <arg column="display_name" javaType="string" />
+            <arg column="email" javaType="string" />
+            <arg column="role" javaType="string" />
+            <arg column="status" javaType="string" />
+            <arg column="failed_login_count" javaType="int" />
+            <arg column="locked_until" javaType="java.time.OffsetDateTime" />
+        </constructor>
+    </resultMap>
+
+    <select id="findByLoginId" resultMap="memberAccountResultMap">
+        SELECT member_id,
+               login_id,
+               password_hash,
+               display_name,
+               email,
+               role,
+               status,
+               failed_login_count,
+               locked_until
+        FROM member_account
+        WHERE lower(login_id) = lower(#{loginId})
+    </select>
+
+    <select id="countByLoginId" resultType="int">
+        SELECT COUNT(*)
+        FROM member_account
+        WHERE lower(login_id) = lower(#{loginId})
+    </select>
+
+    <select id="countByEmail" resultType="int">
+        SELECT COUNT(*)
+        FROM member_account
+        WHERE lower(email) = lower(#{email})
+    </select>
+
+    <insert id="insertMember">
+        INSERT INTO member_account (
+            login_id,
+            password_hash,
+            display_name,
+            email,
+            role,
+            status
+        ) VALUES (
+            #{loginId},
+            #{passwordHash},
+            #{displayName},
+            #{email},
+            'USER',
+            'ACTIVE'
+        )
+    </insert>
+
+    <update id="recordLoginSuccess">
+        UPDATE member_account
+        SET failed_login_count = 0,
+            locked_until = NULL,
+            last_login_at = CURRENT_TIMESTAMP,
+            updated_at = CURRENT_TIMESTAMP
+        WHERE member_id = #{memberId}
+    </update>
+
+    <update id="recordLoginFailure">
+        UPDATE member_account
+        SET failed_login_count = failed_login_count + 1,
+            updated_at = CURRENT_TIMESTAMP
+        WHERE member_id = #{memberId}
+    </update>
+
+</mapper>
