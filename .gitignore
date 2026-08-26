@@ -1,5 +1,8 @@
 .gradle/
+.gradle-user-home/
 build/
 .DS_Store
 *.log
 .vscode/
+.env
+data/
