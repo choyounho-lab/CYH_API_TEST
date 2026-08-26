@@ -120,6 +120,18 @@ npm.cmd run build
 
 코드 실행 순서와 파일 역할은 [LOGIN_API.md](LOGIN_API.md)에서 확인할 수 있습니다. 현재는 자격 증명 확인까지만 구현되어 있으며 로그인 상태를 유지하는 세션 또는 토큰은 아직 없습니다.
 
+## Cloudflare Pages 정적 배포
+
+이 저장소의 `wrangler.toml`은 Vite 빌드 결과인 `frontend/dist`를 Pages 정적 자산으로 지정합니다. Cloudflare Pages에서는 다음 값을 사용합니다.
+
+```text
+Root directory: /
+Build command: npm run build
+Deploy command: npx wrangler pages deploy frontend/dist --project-name=cyh-api-test
+```
+
+`frontend` 소스 폴더가 아니라 반드시 `frontend/dist`가 배포되어야 합니다. 배포된 HTML이 `/src/main.jsx`를 직접 가리키면 소스 폴더가 잘못 배포된 상태입니다.
+
 ## 환경변수
 
 | 이름 | 용도 | 로컬 예시 |

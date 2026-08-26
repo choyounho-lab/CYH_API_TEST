@@ -117,6 +117,22 @@
 - 수정 후 로그인 입력, 회원가입 전환, 프론트 빌드와 서버 응답을 다시 확인했습니다.
 - 현재 구현 상태와 다음 작업 순서를 `WORKLOG.md`에 최신화했습니다.
 
+### 14. Cloudflare Workers 배포 경로 수정
+
+- Cloudflare 배포 주소가 `frontend` 소스 폴더를 직접 서비스해 `/src/main.jsx`를 가리키던 문제를 확인했습니다.
+- Wrangler 정적 자산 경로를 Vite 결과물인 `./frontend/dist`로 설정했습니다.
+- 루트 `npm run build`가 프론트 의존성 설치와 Vite 빌드를 순서대로 실행하도록 추가했습니다.
+- Cloudflare Workers Builds에서 사용할 Root, Build command와 Deploy command를 README에 기록했습니다.
+- 실제 Cloudflare 계정 배포는 로컬 Wrangler 인증 여부를 확인한 뒤 진행해야 합니다.
+
+### 15. Cloudflare Pages 실제 배포
+
+- Wrangler OAuth 인증을 완료했습니다.
+- `frontend/dist`를 `cyh-api-test` Pages 프로젝트에 직접 배포했습니다.
+- 배포 URL `https://436bce1b.cyh-api-test.pages.dev`에서 HTML `200`과 JavaScript `application/javascript` 응답을 확인했습니다.
+- 기존 `pages.dev` 기본 주소에서도 최신 빌드 HTML을 확인했습니다.
+- 다음 배포에서 Pages 설정을 사용하도록 `pages_build_output_dir`와 배포 명령을 정리했습니다.
+
 ## 현재 가능한 기능
 
 - React 프론트엔드 실행과 화면 표시
